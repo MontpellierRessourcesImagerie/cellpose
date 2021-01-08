@@ -3,6 +3,8 @@ dependencies:
   - python>3.4,<3.8
   - pip
   - pyqt
+  - yaml
+  - pyyaml>=5.3
   - pip:
     - numpy>1.14.6,<1.19.4
     - numba>=0.43.1

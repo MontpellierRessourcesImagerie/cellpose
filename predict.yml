@@ -1,0 +1,31 @@
+user_parameters:
+- name: dataPath
+  value: /media/baecker/DONNEES1/programs/fiji-linux64/Fiji.app/dl4mic/tmp/in
+  type: string
+  default: ../../n2v-data/prediction-in
+  help: The path to the folder containig the input images.
+- name: modelType
+  value: cyto
+  type: string
+  default: cyto
+  help: Segment cytoplasm (cyto) or nuclei (nuclei).
+- name: cytoChannel
+  value: 0
+  type: string
+  default: 0
+  help: The channel containing the cytoplasm image (grayscale=0, R=1, G=2, B=3).
+- name: nucleiChannel
+  value: 0
+  type: string
+  default: 0
+  help: The channel containing the nuclei image (none=0, R=1, G=2, B=3).
+- name: diameter
+  value: 0
+  type: int
+  default: 0
+  help: The estimated diameter of the cells in pixel. If diameter is zero, the size of the cells is automatically estimated.
+- name: gpu
+  value: False
+  type: bool
+  default: False
+  help: Do the processing on gpus
