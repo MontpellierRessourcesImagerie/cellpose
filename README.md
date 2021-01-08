@@ -19,7 +19,7 @@
     --diameter DIAMETER   The estimated diameter of the cells in pixel. If
                           diameter is zero, the size of the cells is
                           automatically estimated.
-    --gpu                 Do the processing on gpus``
+    --gpu                 Do the processing on gpus
     </pre>
     
 Use imagej_roi_converter_batch.py to convert the results to ImageJ rois.
