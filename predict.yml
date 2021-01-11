@@ -9,19 +9,19 @@ user_parameters:
   type: string
   default: cyto
   help: Segment cytoplasm (cyto) or nuclei (nuclei).
-- name: cytoChannel
+- name: segChannel
   value: 0
-  type: string
+  type: int
   default: 0
-  help: The channel containing the cytoplasm image (grayscale=0, R=1, G=2, B=3).
+  help: The channel in which the segmentation will be done (grayscale=0, R=1, G=2, B=3).
 - name: nucleiChannel
   value: 0
-  type: string
+  type: int
   default: 0
   help: The channel containing the nuclei image (none=0, R=1, G=2, B=3).
 - name: diameter
   value: 0
-  type: int
+  type: float
   default: 0
   help: The estimated diameter of the cells in pixel. If diameter is zero, the size of the cells is automatically estimated.
 - name: gpu

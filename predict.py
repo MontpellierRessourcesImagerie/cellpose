@@ -16,7 +16,7 @@ def main(argv):
              or image.lower().endswith(".jpg")
              or image.lower().endswith(".png"))
              and not image.lower().endswith("_cp_masks.png")]
-    channels = [[args.cytoChannel, args.nucleiChannel]] * len(files)
+    channels = [[args.segChannel, args.nucleiChannel]] * len(files)
     diameter = args.diameter
     if diameter == 0:
         diameter = None
