@@ -23,7 +23,8 @@ def main(argv):
     for channel, filename in zip(channels, files):
         img = io.imread(filename)
         masks, flows, styles, diams = model.eval(img, diameter=diameter, channels=channel)
-        io.save_to_png(img, masks, flows, filename)
+        newFilename = filename.split(".")[0]+"_c"+str(args.segChannel)+"."+filename.split(".")[1]
+        io.save_to_png(img, masks, flows, newFilename)
 
 
 if __name__ == '__main__':
