@@ -473,6 +473,14 @@ class MainW(QtGui.QMainWindow):
         self.ModelButton.setStyleSheet(self.styleInactive)
         self.ModelButton.setFont(self.boldfont)
         b+=1
+        # batch processing
+        self.BatchButton = QtGui.QPushButton('  run batch')
+        self.BatchButton.clicked.connect(self.run_batch)
+        self.l0.addWidget(self.BatchButton, b,0,1,2)
+        self.BatchButton.setEnabled(False)
+        self.BatchButton.setStyleSheet(self.styleInactive)
+        self.BatchButton.setFont(self.boldfont)
+        b+=1
         self.progress = QtGui.QProgressBar(self)
         self.progress.setStyleSheet('color: gray;')
         self.l0.addWidget(self.progress, b,0,1,2)
@@ -1298,6 +1306,41 @@ class MainW(QtGui.QMainWindow):
         io._masks_to_gui(self, maski, outlines=None)
         self.show()
 
+    def run_batch(self):
+        self.progress.setValue(0)
+        path = os.path.dirname(self.filename)
+        files = [os.path.join(path, image) for image in os.listdir(path)
+                 if (image.lower().endswith(".tif")
+                     or image.lower().endswith(".jpg")
+                     or image.lower().endswith(".png"))
+                 and not image.lower().endswith("_cp_masks.png")]
+        tic = time.time()
+        self.clear_all()
+        self.flows = [[], [], []]
+        self.initialize_model()
+        print('using model %s' % self.current_model)
+        do_3D = False
+        if self.NZ > 1:
+            do_3D = True
+        channels = self.get_channels()
+        self.diameter = float(self.Diameter.text())
+        net_avg = self.NetAvg.currentIndex() < 2
+        resample = self.NetAvg.currentIndex() == 1
+        fileNr = 0
+        for file in files:
+            fileNr = fileNr + 1
+            try:
+                img = io.imread(file)
+                masks, flows, _, _ = self.model.eval(img, channels=channels,
+                                                     diameter=self.diameter, invert=self.invert.isChecked(),
+                                                     net_avg=net_avg, augment=False, resample=resample,
+                                                     do_3D=do_3D)
+                newFilename = file.split(".")[0] + "_c" + str(channels[0]) + "." + file.split(".")[1]
+                io.save_to_png(img, masks, flows, newFilename)
+            except Exception as e:
+                print('NET ERROR: %s' % e)
+            self.progress.setValue((fileNr / len(files))*100)
+
     def compute_model(self):
         self.progress.setValue(0)
         if 1:
@@ -1373,8 +1416,10 @@ class MainW(QtGui.QMainWindow):
         #self.X2Up.setEnabled(True)
         #self.X2Down.setEnabled(True)
         self.ModelButton.setEnabled(True)
+        self.BatchButton.setEnabled(True)
         self.SizeButton.setEnabled(True)
         self.ModelButton.setStyleSheet(self.styleUnpressed)
+        self.BatchButton.setStyleSheet(self.styleUnpressed)
         self.SizeButton.setStyleSheet(self.styleUnpressed)
         self.loadMasks.setEnabled(True)
         self.saveSet.setEnabled(True)
