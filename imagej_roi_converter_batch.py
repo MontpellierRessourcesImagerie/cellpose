@@ -10,6 +10,7 @@ EXCLUDE_ON_EDGES = True
 NUCLEI_GROUP = 2
 CYTOPLASM_GROUP = 1 
 COLORS = [Color.cyan, Color.magenta]
+DISTANCE_TO_BORDER = 5
 Roi.setGroupName(NUCLEI_GROUP, "nuclei")
 Roi.setGroupName(CYTOPLASM_GROUP, "cytoplasm")
 Roi.saveGroupNames()
@@ -39,7 +40,7 @@ for channel in files:
 		continue 	
 	g = g + 1
 	for aFile in channel:
-		imageFile = aFile.split("_")[0]+"."+ext
+		imageFile = aFile.replace("_c"+str(c)+"_cp_outlines.txt", "."+ext)
 		IJ.open(imageFile)
 		if first:
 			IJ.run("Remove Overlay", "")
@@ -56,9 +57,10 @@ for channel in files:
 				roi = PolygonRoi(X, Y, Roi.POLYGON)	
 				if EXCLUDE_ON_EDGES:
 					bounds = roi.getBounds()
-					if (bounds.x<4 or bounds.y<4 or bounds.x+bounds.width>width-4 or bounds.y+bounds.height>height-4):
+					if (bounds.x<DISTANCE_TO_BORDER or bounds.y<DISTANCE_TO_BORDER or bounds.x+bounds.width>width-DISTANCE_TO_BORDER or bounds.y+bounds.height>height-DISTANCE_TO_BORDER):
 						continue
 				imp.setRoi(roi)
+				roi.setStrokeColor(Color.yellow)
 				roi = imp.getRoi()
 				roi.setGroup(g)
 				rm.addRoi(roi)
