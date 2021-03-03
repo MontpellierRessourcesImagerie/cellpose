@@ -1,27 +1,6 @@
 # Batch prediction
   
-  <pre>
-  usage: predict.py [-h] [--dataPath DATAPATH] [--modelType MODELTYPE]
-                    [--cytoChannel CYTOCHANNEL] [--nucleiChannel NUCLEICHANNEL]
-                    [--diameter DIAMETER] [--gpu]
-
-  optional arguments:
-    -h, --help            show this help message and exit
-    --dataPath DATAPATH   The path to the folder containig the input images.
-    --modelType MODELTYPE
-                          Segment cytoplasm (cyto) or nuclei (nuclei).
-    --cytoChannel CYTOCHANNEL
-                          The channel containing the cytoplasm image
-                          (grayscale=0, R=1, G=2, B=3).
-    --nucleiChannel NUCLEICHANNEL
-                          The channel containing the nuclei image (none=0, R=1,
-                          G=2, B=3).
-    --diameter DIAMETER   The estimated diameter of the cells in pixel. If
-                          diameter is zero, the size of the cells is
-                          automatically estimated.
-    --gpu                 Do the processing on gpus
-    </pre>
-    
+The "batch"-button will run the segmentation on all images in the folder of the currently opened image.
 Use imagej_roi_converter_batch.py to convert the results to ImageJ rois.
 
 # Cellpose <img src="cellpose/logo/logo.png" width="250" title="cellpose" alt="cellpose" align="right" vspace = "50">
